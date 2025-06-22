@@ -1,13 +1,16 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { shortUrl,getOriginalUrl } from './Controllers/url.js';
+import { config } from 'dotenv';
+
 
 const app = express();
 
+config({patg:'.env'})
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect(
-  "mongodb+srv://sonukumar763303:KHdQV4rCBV145FoD@cluster0.fxpv0sh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+mongoose.connect(process.env.MONGO_URI 
+  ,
   {
   dbName:"nodejs_mastery_course"
   }
@@ -25,6 +28,6 @@ app.post('/short', shortUrl);
 
 app.get('/:shortCode',getOriginalUrl)
 
-const PORT = 12000;
+const port = process.env.PORT;
 
-app.listen(PORT,()=>console.log(`Server is running on port ${PORT}`));
+app.listen(port,()=>console.log(`Server is running on port ${port}`));
